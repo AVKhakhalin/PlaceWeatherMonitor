@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/ic_home"
+        android:title="@string/home_page" />
+    <item
+        android:id="@+id/empty_link_one"
+        android:icon="@drawable/ic_android"
+        android:title="@string/deep_link" />
+    <item
+        android:id="@+id/empty_link_two"
+        android:icon="@drawable/ic_android"
+        android:title="@string/deep_link" />
+    <item
+        android:id="@+id/empty_link_three"
+        android:icon="@drawable/ic_android"
+        android:title="@string/deep_link" />
+    <item
+        android:id="@+id/empty_link_four"
+        android:icon="@drawable/ic_android"
+        android:title="@string/deep_link" />
+</menu>

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">PlaceWeatherMonitor</string>
+    <string name="home_page">Домашняя\nстраница</string>
+    <string name="deep_link">Пусто</string>
+    <string name="fragment_home_page_button_text">Переход на фрагмент\nс детальной информацией\nо погоде</string>
+    <string name="fragment_home_page_notification_text">Вы уже находитесь на Домашней странице</string>
 </resources>

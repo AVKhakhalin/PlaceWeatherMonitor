@@ -1,22 +1,21 @@
 package com.place.weather.monitor.placeweathermonitor.view.fragments.homepage
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.place.weather.monitor.placeweathermonitor.R
+import com.place.weather.monitor.placeweathermonitor.databinding.FragmentHomePageBinding
+import com.place.weather.monitor.placeweathermonitor.view.model.base.BaseFragment
 
-class HomePageFragment : Fragment() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
+class HomePageFragment : BaseFragment<FragmentHomePageBinding>
+    (FragmentHomePageBinding::inflate) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home_page, container, false)
+        binding.buttonDetailWeatherFragment
+            .setOnClickListener {
+            this.findNavController()
+                .navigate(R.id.action_home_page_fragment_to_detail_weather_fragment, arguments)
+        }
     }
 }

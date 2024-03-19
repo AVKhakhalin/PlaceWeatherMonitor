@@ -3,24 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/homePageFragment">
+    app:startDestination="@id/home_page_fragment">
 
     <fragment
-        android:id="@+id/homePageFragment"
+        android:id="@+id/home_page_fragment"
         android:name="com.place.weather.monitor.placeweathermonitor.view.fragments.homepage.HomePageFragment"
         android:label="fragment_home_page"
         tools:layout="@layout/fragment_home_page" >
         <action
-            android:id="@+id/action_homePageFragment_to_detailWeatherFragment"
-            app:destination="@id/detailWeatherFragment" />
+            android:id="@+id/action_home_page_fragment_to_detail_weather_fragment"
+            app:destination="@id/detail_weather_fragment" />
     </fragment>
     <fragment
-        android:id="@+id/detailWeatherFragment"
+        android:id="@+id/detail_weather_fragment"
         android:name="com.place.weather.monitor.placeweathermonitor.view.fragments.detailweather.DetailWeatherFragment"
         android:label="fragment_detail_weather"
         tools:layout="@layout/fragment_detail_weather" >
         <action
-            android:id="@+id/action_detailWeatherFragment_to_homePageFragment"
-            app:destination="@id/homePageFragment" />
+            android:id="@+id/action_detail_weather_fragment_to_home_page_fragment"
+            app:destination="@id/home_page_fragment" />
     </fragment>
 </navigation>
