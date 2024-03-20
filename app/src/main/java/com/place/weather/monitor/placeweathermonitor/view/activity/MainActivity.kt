@@ -1,11 +1,11 @@
 package com.place.weather.monitor.placeweathermonitor.view.activity
 
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import android.window.OnBackInvokedDispatcher
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
     //region Исходные данные
         // Binding
     private lateinit var binding: ActivityMainBinding
-        // Слушатель кнопок нижнего меню
+    // Слушатель кнопок нижнего меню
     val navListener: NavigationBarView.OnItemSelectedListener =
         NavigationBarView.OnItemSelectedListener {
         when (it.itemId) {
