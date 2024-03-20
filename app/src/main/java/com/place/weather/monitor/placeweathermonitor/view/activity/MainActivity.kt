@@ -10,6 +10,7 @@ import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 import com.place.weather.monitor.placeweathermonitor.R
+import com.place.weather.monitor.placeweathermonitor.app.App
 import com.place.weather.monitor.placeweathermonitor.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -42,6 +43,8 @@ class MainActivity : AppCompatActivity() {
         // Подключение Binding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        // Подключение Dagger
+        App.instance.appComponent.injectMainActivity(this@MainActivity)
         // Настройка нижнего меню
         setupButtomMenu()
         // Настройка системной кнопки Back

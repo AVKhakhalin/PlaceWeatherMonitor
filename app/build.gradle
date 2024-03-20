@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -51,4 +53,8 @@ dependencies {
 
     // Geolocation
     implementation 'com.google.android.gms:play-services-location:17.0.0'
+
+    // Dagger
+    implementation "com.google.dagger:dagger:2.44.2"
+    kapt "com.google.dagger:dagger-compiler:2.44.2"
 }
