@@ -18,8 +18,9 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.*
 import com.place.weather.monitor.placeweathermonitor.R
+import com.place.weather.monitor.placeweathermonitor.app.App
 import com.place.weather.monitor.placeweathermonitor.databinding.FragmentHomePageBinding
-import com.place.weather.monitor.placeweathermonitor.view.model.base.BaseFragment
+import com.place.weather.monitor.placeweathermonitor.model.base.BaseFragment
 import java.util.concurrent.atomic.AtomicInteger
 
 class HomePageFragment : BaseFragment<FragmentHomePageBinding>
@@ -181,6 +182,18 @@ class HomePageFragment : BaseFragment<FragmentHomePageBinding>
         } else {
             lastLocation
         }
+    }
+    //endregion
+
+    //region Настрока Scope для фрагмента
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        App.instance.initHomePageSubcomponent()
+    }
+
+    override fun onDestroy() {
+        App.instance.destroyHomePageSubcomponent()
+        super.onDestroy()
     }
     //endregion
 }

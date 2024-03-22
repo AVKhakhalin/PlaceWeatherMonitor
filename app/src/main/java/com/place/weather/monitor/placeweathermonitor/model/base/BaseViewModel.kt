@@ -1,15 +1,15 @@
-package com.place.weather.monitor.placeweathermonitor.view.model.base
+package com.place.weather.monitor.placeweathermonitor.model.base
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.place.weather.monitor.placeweathermonitor.view.model.data.AppState
+import com.place.weather.monitor.placeweathermonitor.model.data.AppState
 import kotlinx.coroutines.*
 
 abstract class BaseViewModel<T: AppState>(
     protected open val _mutableLiveData: MutableLiveData<T> = MutableLiveData(),
 ): ViewModel() {
     protected val viewModelCoroutineScope = CoroutineScope(
-        Dispatchers.Main
+        Dispatchers.IO
                 + SupervisorJob()
                 + CoroutineExceptionHandler { _, throwable ->
             handleError(throwable)

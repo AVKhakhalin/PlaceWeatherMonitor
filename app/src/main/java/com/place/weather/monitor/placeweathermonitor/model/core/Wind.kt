@@ -1,4 +1,4 @@
-package com.place.weather.monitor.placeweathermonitor.view.model.core
+package com.place.weather.monitor.placeweathermonitor.model.core
 
 data class Wind (
     val speed: Double,

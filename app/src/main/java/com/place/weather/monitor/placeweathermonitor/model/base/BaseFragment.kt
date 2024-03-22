@@ -1,4 +1,4 @@
-package com.place.weather.monitor.placeweathermonitor.view.model.base
+package com.place.weather.monitor.placeweathermonitor.model.base
 
 import android.os.Bundle
 import android.view.LayoutInflater

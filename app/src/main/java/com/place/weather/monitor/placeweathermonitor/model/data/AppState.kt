@@ -1,6 +1,6 @@
-package com.place.weather.monitor.placeweathermonitor.view.model.data
+package com.place.weather.monitor.placeweathermonitor.model.data
 
-import com.place.weather.monitor.placeweathermonitor.view.model.core.WeatherData
+import com.place.weather.monitor.placeweathermonitor.model.core.WeatherData
 
 sealed class AppState {
     data class Success(val inputData: WeatherData?): AppState()
