@@ -12,14 +12,17 @@ import javax.inject.Inject
 class HomePageFragmentViewModel @Inject constructor (
     private val weatherRepository: WeatherRepository
 ): BaseViewModel<AppState>() {
+    //region Исходные данные
     private val liveDataForViewToObserve: LiveData<AppState> = _mutableLiveData
+    //endregion
+
     fun getLastKnownWeatherData(isOnline: Boolean, latitude: Double, longitude: Double) {
         _mutableLiveData.value = AppState.Loading(null)
         cancelJob()
         viewModelCoroutineScope.launch {
             withContext(Dispatchers.IO) {
                 _mutableLiveData.postValue(
-                    AppState.Success(
+                    AppState.SuccessGetLastKnownWeatherData(
                         weatherRepository.getAllLastData(
                             isOnline = isOnline,
                             latitude = latitude,

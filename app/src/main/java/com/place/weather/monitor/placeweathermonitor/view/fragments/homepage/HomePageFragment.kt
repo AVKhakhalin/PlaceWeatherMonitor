@@ -25,6 +25,7 @@ import com.place.weather.monitor.placeweathermonitor.databinding.FragmentHomePag
 import com.place.weather.monitor.placeweathermonitor.model.base.BaseFragment
 import com.place.weather.monitor.placeweathermonitor.model.data.AppState
 import com.place.weather.monitor.placeweathermonitor.utils.ERROR_TAG
+import com.place.weather.monitor.placeweathermonitor.utils.functions.getCurrentDate
 import com.place.weather.monitor.placeweathermonitor.utils.network.isNetworkAvailable
 import java.util.concurrent.atomic.AtomicInteger
 import javax.inject.Inject
@@ -40,6 +41,7 @@ class HomePageFragment : BaseFragment<FragmentHomePageBinding>
     }
         // Разрешения для работы с геолокацией
     companion object {
+        private const val CURRENT_DATE_LONG_TAG: String = "CURRENT_DATE_LONG_TAG"
         private const val TAG = "GEO_DATA_INV"
         private const val PERMISSION_REQUESTS = 44
         private val REQUIRED_RUNTIME_PERMISSIONS =
@@ -57,9 +59,11 @@ class HomePageFragment : BaseFragment<FragmentHomePageBinding>
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // Настройка кнопки перехода на фрагмент с детальной информацией
+        val bundle: Bundle = Bundle()
+        bundle.putLong(CURRENT_DATE_LONG_TAG, getCurrentDate().time)
         binding.buttonDetailWeatherFragment.setOnClickListener {
             this.findNavController()
-                .navigate(R.id.action_home_page_fragment_to_detail_weather_fragment, arguments)
+                .navigate(R.id.action_home_page_fragment_to_detail_weather_fragment, bundle)
         }
 
         // Настройка класса mFusedLocationClient для получения геокоординат
@@ -72,8 +76,6 @@ class HomePageFragment : BaseFragment<FragmentHomePageBinding>
         }
         // Инициализация ViewModel
         initViewModel()
-        Toast.makeText(requireContext(), "ФРАГМЕНТ ЗАГРУЖЕН", Toast.LENGTH_SHORT).show()
-
     }
 
     // Установка ViewModel
@@ -83,10 +85,10 @@ class HomePageFragment : BaseFragment<FragmentHomePageBinding>
         }
     }
 
-    // Отображение
+    // Отображение получаемой информации от ViewModel
     private fun renderData(appState: AppState) {
         when (appState) {
-            is AppState.Success -> {
+            is AppState.SuccessGetLastKnownWeatherData -> {
                 Log.d(TAG, "${appState.inputData}")
             }
             is AppState.Loading -> {
@@ -95,8 +97,13 @@ class HomePageFragment : BaseFragment<FragmentHomePageBinding>
             is AppState.Error -> {
                 Log.d(ERROR_TAG, "${appState.error.message}")
             }
+            else -> {
+                Log.d(ERROR_TAG, requireContext().resources
+                    .getString(R.string.error_get_data_not_for_current_window_text))
+            }
         }
     }
+
     //region Получение разрешений на работу с геолокацией
     private fun allRuntimePermissionsGranted(): Boolean {
         for (permission in REQUIRED_RUNTIME_PERMISSIONS) {

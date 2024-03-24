@@ -12,7 +12,5 @@ const val API_LANGUAGE: String = "ru"
 const val API_UNITS: String = "metric"
 // Код ошибки при получении погодных данных
 const val ERROR_CODE: Int = -1
-// Формат используемой даты
-const val DATE_FORMAT: String = "yyyy-MM-dd"
 // Тег для ошибочных логов
 const val ERROR_TAG: String = "ERROR_INV"
