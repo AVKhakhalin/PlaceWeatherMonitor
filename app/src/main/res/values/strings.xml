@@ -9,4 +9,11 @@
     <string name="error_permissions_geodata_text">Разрешения не доступ к геоданным не получены</string>
     <string name="error_geolocation_needed_text">Пожалуйста, для работы приложения включите геолокацию.</string>
     <string name="error_get_data_not_for_current_window_text">ОШИБКА: Получены данные не для текущего окна.</string>
+    <string name="data_text_sample_text">23-03-2024</string>
+    <string name="place_text_sample_text">Орехово-Борисово Южное</string>
+    <string name="humidity_percent_value_sample_text">23</string>
+    <string name="cloud_value_sample_text">23</string>
+    <string name="wind_value_sample_text">23</string>
+    <string name="temperature_min_value_sample_text">23</string>
+    <string name="temperature_max_value_sample_text">23</string>
 </resources>

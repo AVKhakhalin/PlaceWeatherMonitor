@@ -59,9 +59,9 @@ class HomePageFragment : BaseFragment<FragmentHomePageBinding>
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // Настройка кнопки перехода на фрагмент с детальной информацией
-        val bundle: Bundle = Bundle()
-        bundle.putLong(CURRENT_DATE_LONG_TAG, getCurrentDate().time)
         binding.buttonDetailWeatherFragment.setOnClickListener {
+            val bundle: Bundle = Bundle()
+            bundle.putLong(CURRENT_DATE_LONG_TAG, getCurrentDate().time)
             this.findNavController()
                 .navigate(R.id.action_home_page_fragment_to_detail_weather_fragment, bundle)
         }
