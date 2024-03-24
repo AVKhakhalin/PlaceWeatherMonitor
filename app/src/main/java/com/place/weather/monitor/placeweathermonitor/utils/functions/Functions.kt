@@ -1,14 +1,9 @@
 package com.place.weather.monitor.placeweathermonitor.utils.functions
 
-import android.annotation.SuppressLint
-import android.util.Log
 import com.place.weather.monitor.placeweathermonitor.db.entity.WeatherDataEntity
 import com.place.weather.monitor.placeweathermonitor.model.core.*
-import com.place.weather.monitor.placeweathermonitor.utils.DATE_FORMAT
 import com.place.weather.monitor.placeweathermonitor.utils.ERROR_CODE
-import com.place.weather.monitor.placeweathermonitor.utils.ERROR_TAG
-import java.text.ParseException
-import java.text.SimpleDateFormat
+import com.place.weather.monitor.placeweathermonitor.utils.NUMBER_LAST_DAYS
 import java.util.*
 
 fun List<WeatherDataEntity>.convertToListWeatherDataWithDate() : List<WeatherDataWithDate> {
@@ -122,7 +117,6 @@ fun WeatherData.convertToWeatherDataWithDate() : WeatherDataWithDate {
     )
 }
 
-@SuppressLint("SimpleDateFormat")
 fun WeatherData.convertToWeatherDataEntity() : WeatherDataEntity {
     val weatherShortInfo : WeatherShortInfo =
         if (this.weather.isNotEmpty()) this.weather[0]
@@ -165,25 +159,26 @@ fun WeatherData.convertToWeatherDataEntity() : WeatherDataEntity {
     )
 }
 
-@SuppressLint("SimpleDateFormat")
+// Получение текущей даты
 fun getCurrentDate(): Date {
-    val formatter = SimpleDateFormat(DATE_FORMAT)
-    val currentDate: Date = Date()
-    val current = formatter.format(currentDate)
-    return Date(convertServerDateToLong(current))
+    return getCalendarWithoutTime().time
 }
 
-@SuppressLint("SimpleDateFormat")
-fun convertServerDateToLong(date: String): Long {
-    val df = SimpleDateFormat(DATE_FORMAT)
-    var result: Long = 0
-    try {
-        result = df.parse(date).time
-    } catch (error: ParseException) {
-        Log.d(ERROR_TAG, "Ошибка: Ошибочный формат даты")
-    }
-    return result
+// Получение даты со сдвигом на заданное количество дней
+fun getLastDate(numberLastDays: Int): Date {
+    val calendar: Calendar = getCalendarWithoutTime()
+    calendar.roll(Calendar.DAY_OF_WEEK, -numberLastDays)
+    return calendar.time
 }
 
+// Получение класса Calendar с обнулёнными часами, минутами, секундами и миллисекундами
+fun getCalendarWithoutTime(): Calendar {
+    val calendar: Calendar = GregorianCalendar()
+    calendar[Calendar.HOUR_OF_DAY] = 0
+    calendar[Calendar.MINUTE] = 0
+    calendar[Calendar.SECOND] = 0
+    calendar[Calendar.MILLISECOND] = 0
+    return calendar
+}
 
 

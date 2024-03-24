@@ -1,7 +1,7 @@
 package com.place.weather.monitor.placeweathermonitor.repository.retrofit
 
-import com.place.weather.monitor.placeweathermonitor.model.core.WeatherData
 import com.place.weather.monitor.placeweathermonitor.api.RetrofitService
+import com.place.weather.monitor.placeweathermonitor.model.core.WeatherData
 import javax.inject.Inject
 
 class WeatherDataRetrofitImpl @Inject constructor(

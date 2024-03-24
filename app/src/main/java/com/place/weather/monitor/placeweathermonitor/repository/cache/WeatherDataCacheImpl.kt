@@ -12,8 +12,11 @@ import javax.inject.Inject
 class WeatherDataCacheImpl @Inject constructor(
     private val db: AppDatabase
 ) : WeatherDataCache {
-    override suspend fun getAllLastData(): List<WeatherDataWithDate> {
-        return db.weatherDataDao.getAllLastData().convertToListWeatherDataWithDate()
+    override suspend fun getAllLastData(
+        lastDate: Date
+    ): List<WeatherDataWithDate> {
+        return db.weatherDataDao.getAllLastData(lastDate)
+            .convertToListWeatherDataWithDate()
     }
 
     override suspend fun getDataByDate(date: Date): WeatherDataWithDate? {

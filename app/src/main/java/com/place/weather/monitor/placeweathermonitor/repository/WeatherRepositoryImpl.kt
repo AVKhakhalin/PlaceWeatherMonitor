@@ -4,8 +4,10 @@ import com.place.weather.monitor.placeweathermonitor.model.core.WeatherData
 import com.place.weather.monitor.placeweathermonitor.model.core.WeatherDataWithDate
 import com.place.weather.monitor.placeweathermonitor.repository.cache.WeatherDataCache
 import com.place.weather.monitor.placeweathermonitor.repository.retrofit.WeatherDataRetrofit
+import com.place.weather.monitor.placeweathermonitor.utils.NUMBER_LAST_DAYS
 import com.place.weather.monitor.placeweathermonitor.utils.functions.convertToWeatherDataWithDate
 import com.place.weather.monitor.placeweathermonitor.utils.functions.getCurrentDate
+import com.place.weather.monitor.placeweathermonitor.utils.functions.getLastDate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.*
@@ -57,7 +59,7 @@ class WeatherRepositoryImpl @Inject constructor(
                 weatherDataCache.putNewData(responseRetrofit)
             }
         }
-        return weatherDataCache.getAllLastData()
+        return weatherDataCache.getAllLastData(getLastDate(NUMBER_LAST_DAYS))
     }
 
     override suspend fun getLastWeatherData(

@@ -1,11 +1,9 @@
 package com.place.weather.monitor.placeweathermonitor.di.modules
 
 import android.content.Context
-import androidx.lifecycle.ViewModelProvider
 import com.place.weather.monitor.placeweathermonitor.api.RetrofitService
 import com.place.weather.monitor.placeweathermonitor.app.App
 import com.place.weather.monitor.placeweathermonitor.db.AppDatabase
-import com.place.weather.monitor.placeweathermonitor.model.base.ViewModelFactory
 import com.place.weather.monitor.placeweathermonitor.repository.WeatherRepository
 import com.place.weather.monitor.placeweathermonitor.repository.WeatherRepositoryImpl
 import com.place.weather.monitor.placeweathermonitor.repository.cache.WeatherDataCache
