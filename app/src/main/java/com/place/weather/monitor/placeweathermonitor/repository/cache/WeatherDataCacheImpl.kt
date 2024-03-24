@@ -3,7 +3,9 @@ package com.place.weather.monitor.placeweathermonitor.repository.cache
 import com.place.weather.monitor.placeweathermonitor.db.AppDatabase
 import com.place.weather.monitor.placeweathermonitor.model.core.WeatherData
 import com.place.weather.monitor.placeweathermonitor.model.core.WeatherDataWithDate
+import com.place.weather.monitor.placeweathermonitor.model.core.WeatherDataWithDateShortInfo
 import com.place.weather.monitor.placeweathermonitor.utils.functions.convertToListWeatherDataWithDate
+import com.place.weather.monitor.placeweathermonitor.utils.functions.convertToListWeatherShortInfo
 import com.place.weather.monitor.placeweathermonitor.utils.functions.convertToWeatherDataEntity
 import com.place.weather.monitor.placeweathermonitor.utils.functions.convertToWeatherDataWithDate
 import java.util.*
@@ -17,6 +19,12 @@ class WeatherDataCacheImpl @Inject constructor(
     ): List<WeatherDataWithDate> {
         return db.weatherDataDao.getAllLastData(lastDate)
             .convertToListWeatherDataWithDate()
+    }
+
+    override suspend fun getAllLastDataShortInfo(
+        lastDate: Date
+    ): List<WeatherDataWithDateShortInfo> {
+        return db.weatherDataDao.getAllLastShortData(lastDate).convertToListWeatherShortInfo()
     }
 
     override suspend fun getDataByDate(date: Date): WeatherDataWithDate? {

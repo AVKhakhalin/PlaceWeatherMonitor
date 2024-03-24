@@ -2,6 +2,7 @@ package com.place.weather.monitor.placeweathermonitor.model.core
 
 import com.google.gson.annotations.SerializedName
 
+// Данные для окна с детальной информацией о погоде
 data class WeatherDataWithDate(
     @SerializedName("date")
     val date: Long,

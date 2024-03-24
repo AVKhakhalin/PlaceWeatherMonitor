@@ -18,6 +18,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.*
 import com.place.weather.monitor.placeweathermonitor.R
 import com.place.weather.monitor.placeweathermonitor.app.App
@@ -25,8 +27,9 @@ import com.place.weather.monitor.placeweathermonitor.databinding.FragmentHomePag
 import com.place.weather.monitor.placeweathermonitor.model.base.BaseFragment
 import com.place.weather.monitor.placeweathermonitor.model.data.AppState
 import com.place.weather.monitor.placeweathermonitor.utils.ERROR_TAG
-import com.place.weather.monitor.placeweathermonitor.utils.functions.getCurrentDate
 import com.place.weather.monitor.placeweathermonitor.utils.network.isNetworkAvailable
+import com.place.weather.monitor.placeweathermonitor.view.fragments.homepage.adapters.CallbackWeatherDataChoosed
+import com.place.weather.monitor.placeweathermonitor.view.fragments.homepage.adapters.WeatherDataShortInfoRecyclerAdapter
 import java.util.concurrent.atomic.AtomicInteger
 import javax.inject.Inject
 
@@ -54,18 +57,12 @@ class HomePageFragment : BaseFragment<FragmentHomePageBinding>
     lateinit var mFusedLocationClient: FusedLocationProviderClient
         // Фильтр для одиночного получения геоданных
     private var numberGeoDatesFilter: AtomicInteger = AtomicInteger(0)
+        // Список погодных данных с краткой информацией
+    lateinit var weatherDataShortInfoRecyclerView: RecyclerView
     //endregion
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // Настройка кнопки перехода на фрагмент с детальной информацией
-        binding.buttonDetailWeatherFragment.setOnClickListener {
-            val bundle: Bundle = Bundle()
-            bundle.putLong(CURRENT_DATE_LONG_TAG, getCurrentDate().time)
-            this.findNavController()
-                .navigate(R.id.action_home_page_fragment_to_detail_weather_fragment, bundle)
-        }
-
         // Настройка класса mFusedLocationClient для получения геокоординат
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         // Получение необходимых разрешений для получения геокоординат
@@ -74,8 +71,28 @@ class HomePageFragment : BaseFragment<FragmentHomePageBinding>
         } else {
             lastLocation
         }
-        // Инициализация ViewModel
+        // Инициализация и установка списка погодных данных
+        initList()
+        // Установка ViewModel
         initViewModel()
+    }
+
+    // Инициализация и установка списка погодных данных
+    private fun initList() {
+        weatherDataShortInfoRecyclerView = binding.weatherDataList
+        weatherDataShortInfoRecyclerView.layoutManager = LinearLayoutManager(
+            requireContext(), LinearLayoutManager.VERTICAL, false)
+        weatherDataShortInfoRecyclerView.adapter =
+            WeatherDataShortInfoRecyclerAdapter(
+                object: CallbackWeatherDataChoosed {
+                    override fun sendChoosedWeatherDate(dateLong: Long) {
+                        val bundle: Bundle = Bundle()
+                        bundle.putLong(CURRENT_DATE_LONG_TAG, dateLong)
+                        this@HomePageFragment.findNavController().navigate(
+                            R.id.action_home_page_fragment_to_detail_weather_fragment, bundle)
+                    }
+                }
+            )
     }
 
     // Установка ViewModel
@@ -88,11 +105,14 @@ class HomePageFragment : BaseFragment<FragmentHomePageBinding>
     // Отображение получаемой информации от ViewModel
     private fun renderData(appState: AppState) {
         when (appState) {
-            is AppState.SuccessGetLastKnownWeatherData -> {
-                Log.d(TAG, "${appState.inputData}")
+            is AppState.SuccessGetLastKnownWeatherDataShortInfo -> {
+                (weatherDataShortInfoRecyclerView.adapter as WeatherDataShortInfoRecyclerAdapter)
+                    .submitList(appState.inputData)
+                Log.d("RESULT_INV", "${appState.inputData}")
+                binding.progressbarWeatherDataList.visibility = View.GONE
             }
             is AppState.Loading -> {
-                Log.d(ERROR_TAG, "LOADING DATA")
+                binding.progressbarWeatherDataList.visibility = View.VISIBLE
             }
             is AppState.Error -> {
                 Log.d(ERROR_TAG, "${appState.error.message}")
@@ -242,12 +262,5 @@ class HomePageFragment : BaseFragment<FragmentHomePageBinding>
     override fun onAttach(context: Context) {
         App.instance.appComponent.injectHomePageFragment(this)
         super.onAttach(context)
-        // Установка ViewModel
-//        initViewModel()
     }
-//    override fun onDetach() {
-//        App.instance.destroyHomePageSubcomponent()
-//        super.onDetach()
-//    }
-    //endregion
 }

@@ -1,10 +1,36 @@
 package com.place.weather.monitor.placeweathermonitor.utils.functions
 
+import android.graphics.Color
 import com.place.weather.monitor.placeweathermonitor.db.entity.WeatherDataEntity
+import com.place.weather.monitor.placeweathermonitor.db.entity.WeatherShortDataEntity
 import com.place.weather.monitor.placeweathermonitor.model.core.*
+import com.place.weather.monitor.placeweathermonitor.utils.ALPHA_NOT_OPAQUE
 import com.place.weather.monitor.placeweathermonitor.utils.ERROR_CODE
 import com.place.weather.monitor.placeweathermonitor.utils.NUMBER_LAST_DAYS
 import java.util.*
+
+fun List<WeatherShortDataEntity>.convertToListWeatherShortInfo() :
+        List<WeatherDataWithDateShortInfo> {
+    val listWeatherDataWithDateShortInfo:
+            MutableList<WeatherDataWithDateShortInfo> = mutableListOf()
+    this.forEach {
+        listWeatherDataWithDateShortInfo.add(it.convertToWeatherShortInfo())
+    }
+    return listWeatherDataWithDateShortInfo
+}
+
+fun WeatherShortDataEntity.convertToWeatherShortInfo() : WeatherDataWithDateShortInfo {
+    return WeatherDataWithDateShortInfo(
+        date = this.date.time,
+        name = this.name,
+        all = this.cloudsAll,
+        humidity = this.weatherMainHumidity,
+        pressure = this.weatherMainPressure,
+        temp_min = this.weatherMainTempMin,
+        temp_max = this.weatherMainTempMax,
+        speed = this.windSpeed,
+    )
+}
 
 fun List<WeatherDataEntity>.convertToListWeatherDataWithDate() : List<WeatherDataWithDate> {
     val listWeatherData: MutableList<WeatherDataWithDate> = mutableListOf()
@@ -181,4 +207,32 @@ fun getCalendarWithoutTime(): Calendar {
     return calendar
 }
 
-
+fun Int.convertToColor(): Int {
+// Схема изменения цвета:
+// Rating    R   G  B
+//    0  -  201  35 35
+//    25 -  174 136 87
+//    50 -  167 174 87
+//   100 -   42 166 40
+    var red: Int = 0
+    var green: Int = 0
+    var blue: Int = 0
+    when (this) {
+        in 0..25 -> {
+            red = 201 - 27 / 25
+            green = 35 + this * 101 / 25
+            blue = 35 + this * 52 / 25
+        }
+        in 25..50 -> {
+            red = 174 - (this - 25) * 7 / 25
+            green = 136 + (this - 25) * 38 / 25
+            blue = 87
+        }
+        in 50..100 -> {
+            red = 167 - (this - 50) * 125 / 50
+            green = 174 - (this - 50) * 8 / 50
+            blue = 87 - (this - 50) * 47 / 50
+        }
+    }
+    return Color.argb(ALPHA_NOT_OPAQUE, red, green, blue)
+}
