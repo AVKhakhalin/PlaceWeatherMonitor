@@ -6,64 +6,114 @@ import com.place.weather.monitor.placeweathermonitor.db.entity.WeatherDataEntity
 import com.place.weather.monitor.placeweathermonitor.model.core.*
 import com.place.weather.monitor.placeweathermonitor.utils.DATE_FORMAT
 import com.place.weather.monitor.placeweathermonitor.utils.ERROR_CODE
+import com.place.weather.monitor.placeweathermonitor.utils.ERROR_TAG
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun List<WeatherDataEntity>.convertToListWeatherData() : List<WeatherData> {
-    val listWeatherData: MutableList<WeatherData> = mutableListOf()
+fun List<WeatherDataEntity>.convertToListWeatherDataWithDate() : List<WeatherDataWithDate> {
+    val listWeatherData: MutableList<WeatherDataWithDate> = mutableListOf()
     this.forEach {
-        listWeatherData.add(it.convertToWeatherData())
+        listWeatherData.add(it.convertToWeatherDataWithDate())
     }
     return listWeatherData
 }
 
-fun WeatherDataEntity.convertToWeatherData() : WeatherData {
-    return WeatherData(
+fun WeatherDataEntity.convertToWeatherDataWithDate() : WeatherDataWithDate {
+    return WeatherDataWithDate(
+        date = this.date.time,
         coord = Coord(
-            lon = this.coord_longitude,
-            lat = this.coord_latitude,
+            lon = this.coordLongitude,
+            lat = this.coordLatitude,
         ),
         weather = listOf<WeatherShortInfo>(
             WeatherShortInfo(
-                id = this.weatherShortInfo_id,
-                main = Rain(
-                  `1h` = this.weatherShortInfo_main_rain_1h,
-                ),
-                description = this.weatherShortInfo_description,
-                icon = this.weatherShortInfo_icon,
+                id = this.weatherShortInfoID,
+                main = this.weatherShortInfoMain,
+                description = this.weatherShortInfoDescription,
+                icon = this.weatherShortInfoIcon,
             ),
         ),
         base = this.base,
         main = WeatherMain(
-            temp = this.weatherMain_temp,
-            feels_like = this.weatherMain_feels_like,
-            temp_min = this.weatherMain_temp_min,
-            temp_max = this.weatherMain_temp_max,
-            pressure = this.weatherMain_pressure,
-            humidity = this.weatherMain_humidity,
-            sea_level = this.weatherMain_sea_level,
-            grnd_level = this.weatherMain_grnd_level,
+            temp = this.weatherMainTemp,
+            feels_like = this.weatherMainFeelsLike,
+            temp_min = this.weatherMainTempMin,
+            temp_max = this.weatherMainTempMax,
+            pressure = this.weatherMainPressure,
+            humidity = this.weatherMainHumidity,
         ),
         visibility = this.visibility,
         wind = Wind(
-            speed = this.wind_speed,
-            deg = this.wind_deg,
-            gust = this.wind_gust,
-        ),
-        rain = Rain(
-            `1h` = this.rain_1h,
+            speed = this.windSpeed,
+            deg = this.windDeg,
         ),
         clouds = Clouds(
-            all = this.clouds_all,
+            all = this.cloudsAll,
         ),
         dt = this.dt,
         sys = Sys(
-            type = this.sys_type,
-            id = this.sys_id,
-            country = this.sys_country,
-            sunrise = this.sys_sunrise,
-            sunset = this.sys_sunset,
+            type = this.sysType,
+            id = this.sysID,
+            country = this.sysCountry,
+            sunrise = this.sysSunrise,
+            sunset = this.sysSunset,
+        ),
+        timezone = this.timezone,
+        id = this.id,
+        cod = this.cod,
+        name = this.name,
+    )
+}
+
+fun WeatherData.convertToWeatherDataWithDate() : WeatherDataWithDate {
+    val weatherShortInfo : WeatherShortInfo =
+        if (this.weather.isNotEmpty()) this.weather[0]
+        else WeatherShortInfo(
+            id = ERROR_CODE,
+            main = "$ERROR_CODE",
+            description = "$ERROR_CODE",
+            icon = "$ERROR_CODE"
+        )
+
+    return WeatherDataWithDate(
+        date = getCurrentDate().time,
+        coord = Coord(
+            lon = this.coord.lon,
+            lat = this.coord.lat,
+        ),
+        weather = listOf<WeatherShortInfo>(
+            WeatherShortInfo(
+                id = weatherShortInfo.id,
+                main = weatherShortInfo.main,
+                description = weatherShortInfo.description,
+                icon = weatherShortInfo.icon,
+            ),
+        ),
+        base = this.base,
+        main = WeatherMain(
+            temp = this.main.temp,
+            feels_like = this.main.feels_like,
+            temp_min = this.main.temp_min,
+            temp_max = this.main.temp_max,
+            pressure = this.main.pressure,
+            humidity = this.main.humidity,
+        ),
+        visibility = this.visibility,
+        wind = Wind(
+            speed = this.wind.speed,
+            deg = this.wind.deg,
+        ),
+        clouds = Clouds(
+            all = this.clouds.all,
+        ),
+        dt = this.dt,
+        sys = Sys(
+            type = this.sys.type,
+            id = this.sys.id,
+            country = this.sys.country,
+            sunrise = this.sys.sunrise,
+            sunset = this.sys.sunset,
         ),
         timezone = this.timezone,
         id = this.id,
@@ -78,50 +128,49 @@ fun WeatherData.convertToWeatherDataEntity() : WeatherDataEntity {
         if (this.weather.isNotEmpty()) this.weather[0]
         else WeatherShortInfo(
             id = ERROR_CODE,
-            main = Rain(
-                `1h` = ERROR_CODE.toDouble()
-            ),
+            main = "$ERROR_CODE",
             description = "$ERROR_CODE",
             icon = "$ERROR_CODE"
         )
-    val formatter = SimpleDateFormat(DATE_FORMAT)
-    val currentDate: Date = Date()
-    val current = formatter.format(currentDate)
 
     return WeatherDataEntity(
-        date = Date(convertServerDateToLong(current)),
-        coord_latitude = this.coord.lat,
-        coord_longitude = this.coord.lon,
-        weatherShortInfo_id = weatherShortInfo.id,
-        weatherShortInfo_main_rain_1h = weatherShortInfo.main.`1h`,
-        weatherShortInfo_description = weatherShortInfo.description,
-        weatherShortInfo_icon = weatherShortInfo.icon,
+        date = getCurrentDate(),
+        coordLatitude = this.coord.lat,
+        coordLongitude = this.coord.lon,
+        weatherShortInfoID = weatherShortInfo.id,
+        weatherShortInfoMain = weatherShortInfo.main,
+        weatherShortInfoDescription = weatherShortInfo.description,
+        weatherShortInfoIcon = weatherShortInfo.icon,
         base = this.base,
-        weatherMain_temp = this.main.temp,
-        weatherMain_feels_like = this.main.feels_like,
-        weatherMain_temp_min = this.main.temp_min,
-        weatherMain_temp_max = this.main.temp_max,
-        weatherMain_pressure = this.main.pressure,
-        weatherMain_humidity = this.main.humidity,
-        weatherMain_sea_level = this.main.sea_level,
-        weatherMain_grnd_level = this.main.grnd_level,
+        weatherMainTemp = this.main.temp,
+        weatherMainFeelsLike = this.main.feels_like,
+        weatherMainTempMin = this.main.temp_min,
+        weatherMainTempMax = this.main.temp_max,
+        weatherMainPressure = this.main.pressure,
+        weatherMainHumidity = this.main.humidity,
         visibility = this.visibility,
-        wind_speed = this.wind.speed,
-        wind_deg = this.wind.deg,
-        wind_gust = this.wind.gust,
-        rain_1h = this.rain.`1h`,
-        clouds_all = this.clouds.all,
+        windSpeed = this.wind.speed,
+        windDeg = this.wind.deg,
+        cloudsAll = this.clouds.all,
         dt = this.dt,
-        sys_type = this.sys.type,
-        sys_id = this.sys.id,
-        sys_country = this.sys.country,
-        sys_sunrise = this.sys.sunrise,
-        sys_sunset = this.sys.sunset,
+        sysType = this.sys.type,
+        sysID = this.sys.id,
+        sysCountry = this.sys.country,
+        sysSunrise = this.sys.sunrise,
+        sysSunset = this.sys.sunset,
         timezone = this.timezone,
         id = this.id,
         name = this.name,
         cod = this.cod,
     )
+}
+
+@SuppressLint("SimpleDateFormat")
+fun getCurrentDate(): Date {
+    val formatter = SimpleDateFormat(DATE_FORMAT)
+    val currentDate: Date = Date()
+    val current = formatter.format(currentDate)
+    return Date(convertServerDateToLong(current))
 }
 
 @SuppressLint("SimpleDateFormat")
@@ -131,7 +180,7 @@ fun convertServerDateToLong(date: String): Long {
     try {
         result = df.parse(date).time
     } catch (error: ParseException) {
-        Log.d("mylogs", "Ошибка: Ошибочный формат даты")
+        Log.d(ERROR_TAG, "Ошибка: Ошибочный формат даты")
     }
     return result
 }

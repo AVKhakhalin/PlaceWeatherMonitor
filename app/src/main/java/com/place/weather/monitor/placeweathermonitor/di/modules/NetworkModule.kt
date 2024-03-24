@@ -52,12 +52,11 @@ class NetworkModule {
     @Provides
     fun getRetrofit(
         @Named(BASE_URL) baseUrl: String,
-        gson: Gson
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(GsonConverterFactory.create())
             .client(createOkHttpClient(BaseInterceptor()))
             .build()
     }

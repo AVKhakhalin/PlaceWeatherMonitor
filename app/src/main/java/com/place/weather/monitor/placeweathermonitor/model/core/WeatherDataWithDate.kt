@@ -2,7 +2,9 @@ package com.place.weather.monitor.placeweathermonitor.model.core
 
 import com.google.gson.annotations.SerializedName
 
-data class WeatherData(
+data class WeatherDataWithDate(
+    @SerializedName("date")
+    val date: Long,
     @SerializedName("coord")
     val coord: Coord,
     @SerializedName("weather")

@@ -1,12 +1,18 @@
 package com.place.weather.monitor.placeweathermonitor.view.activity
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.util.AttributeSet
+import android.view.View
 import android.widget.Toast
 import android.window.OnBackInvokedDispatcher
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 import com.place.weather.monitor.placeweathermonitor.R
@@ -18,13 +24,13 @@ class MainActivity : AppCompatActivity() {
         // Binding
     private lateinit var binding: ActivityMainBinding
     // Слушатель кнопок нижнего меню
-    val navListener: NavigationBarView.OnItemSelectedListener =
+    private val navListener: NavigationBarView.OnItemSelectedListener =
         NavigationBarView.OnItemSelectedListener {
         when (it.itemId) {
             R.id.home -> {
                 // Проверка на нахождение на главном окне
                 if (getCurrentFragmentID() != R.id.home_page_fragment) {
-                    this.findNavController(R.id.fragmentContainerView)
+                    this.findNavController(R.id.fragment_container_view)
                         .navigate(R.id.action_detail_weather_fragment_to_home_page_fragment)
                 } else {
                     Toast.makeText(
@@ -43,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         // Подключение Binding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        // Подключение Dagger
+        // Подключение зависимостей Dagger
         App.instance.appComponent.injectMainActivity(this@MainActivity)
         // Настройка нижнего меню
         setupButtomMenu()
@@ -80,13 +86,13 @@ class MainActivity : AppCompatActivity() {
             this.finishAndRemoveTask()
         } else {
             // Переход на предыдущий фрагмент по стеку
-            this.findNavController(R.id.fragmentContainerView).popBackStack()
+            this.findNavController(R.id.fragment_container_view).popBackStack()
         }
     }
     //endregion
 
     // Получение ID текущего фрагмента
     private fun getCurrentFragmentID(): Int? {
-        return this.findNavController(R.id.fragmentContainerView).currentDestination?.id
+        return this.findNavController(R.id.fragment_container_view).currentDestination?.id
     }
 }

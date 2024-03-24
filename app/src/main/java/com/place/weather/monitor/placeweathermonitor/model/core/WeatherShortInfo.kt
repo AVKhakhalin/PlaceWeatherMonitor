@@ -1,8 +1,14 @@
 package com.place.weather.monitor.placeweathermonitor.model.core
 
+import com.google.gson.annotations.SerializedName
+
 data class WeatherShortInfo (
+    @SerializedName("id")
     val id: Int,
-    val main: Rain,
+    @SerializedName("main")
+    val main: String,
+    @SerializedName("description")
     val description: String,
+    @SerializedName("icon")
     val icon: String,
 )

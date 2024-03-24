@@ -5,18 +5,16 @@ import com.place.weather.monitor.placeweathermonitor.model.core.WeatherData
 import com.place.weather.monitor.placeweathermonitor.utils.API_LANGUAGE
 import com.place.weather.monitor.placeweathermonitor.utils.API_UNITS
 import kotlinx.coroutines.Deferred
-import retrofit2.http.Field
-import retrofit2.http.Headers
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface RetrofitService {
     @Headers("Content-Type: application/json")
-    @POST("/weather")
+    @GET("weather")
     fun requestCurrentWeatherData(
-        @Field("lat") lat: Double,
-        @Field("lon") lon: Double,
-        @Field("appid") appid: String = BuildConfig.API_KEY,
-        @Field("lang") lang: String = API_LANGUAGE,
-        @Field("units") units: String = API_UNITS,
+        @Query("lat") lat: Double,
+        @Query("lon") lon: Double,
+        @Query("appid") appid: String = BuildConfig.API_KEY,
+        @Query("lang") lang: String = API_LANGUAGE,
+        @Query("units") units: String = API_UNITS,
     ): Deferred<WeatherData>
 }

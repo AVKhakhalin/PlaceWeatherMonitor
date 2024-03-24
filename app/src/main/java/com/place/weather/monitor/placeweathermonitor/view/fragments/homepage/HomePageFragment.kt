@@ -15,17 +15,29 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.*
 import com.place.weather.monitor.placeweathermonitor.R
 import com.place.weather.monitor.placeweathermonitor.app.App
 import com.place.weather.monitor.placeweathermonitor.databinding.FragmentHomePageBinding
 import com.place.weather.monitor.placeweathermonitor.model.base.BaseFragment
+import com.place.weather.monitor.placeweathermonitor.model.data.AppState
+import com.place.weather.monitor.placeweathermonitor.utils.ERROR_TAG
+import com.place.weather.monitor.placeweathermonitor.utils.network.isNetworkAvailable
 import java.util.concurrent.atomic.AtomicInteger
+import javax.inject.Inject
 
 class HomePageFragment : BaseFragment<FragmentHomePageBinding>
     (FragmentHomePageBinding::inflate) {
     //regin Исходные данные
+        // ViewModel
+    @Inject
+    lateinit var factory: ViewModelProvider.Factory
+    private val viewModel: HomePageFragmentViewModel by viewModels {
+        factory
+    }
         // Разрешения для работы с геолокацией
     companion object {
         private const val TAG = "GEO_DATA_INV"
@@ -45,8 +57,7 @@ class HomePageFragment : BaseFragment<FragmentHomePageBinding>
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // Настройка кнопки перехода на фрагмент с детальной информацией
-        binding.buttonDetailWeatherFragment
-            .setOnClickListener {
+        binding.buttonDetailWeatherFragment.setOnClickListener {
             this.findNavController()
                 .navigate(R.id.action_home_page_fragment_to_detail_weather_fragment, arguments)
         }
@@ -59,8 +70,33 @@ class HomePageFragment : BaseFragment<FragmentHomePageBinding>
         } else {
             lastLocation
         }
+        // Инициализация ViewModel
+        initViewModel()
+        Toast.makeText(requireContext(), "ФРАГМЕНТ ЗАГРУЖЕН", Toast.LENGTH_SHORT).show()
+
     }
 
+    // Установка ViewModel
+    fun initViewModel() {
+        this.viewModel.subscribe().observe(viewLifecycleOwner) {
+            renderData(it)
+        }
+    }
+
+    // Отображение
+    private fun renderData(appState: AppState) {
+        when (appState) {
+            is AppState.Success -> {
+                Log.d(TAG, "${appState.inputData}")
+            }
+            is AppState.Loading -> {
+                Log.d(ERROR_TAG, "LOADING DATA")
+            }
+            is AppState.Error -> {
+                Log.d(ERROR_TAG, "${appState.error.message}")
+            }
+        }
+    }
     //region Получение разрешений на работу с геолокацией
     private fun allRuntimePermissionsGranted(): Boolean {
         for (permission in REQUIRED_RUNTIME_PERMISSIONS) {
@@ -121,6 +157,11 @@ class HomePageFragment : BaseFragment<FragmentHomePageBinding>
                             // Возврат результата с геокоординатами
                             if (numberGeoDatesFilter.get() == 0) {
                                 location?.let {
+                                    viewModel.getLastKnownWeatherData(
+                                        isOnline = this.isNetworkAvailable(),
+                                        latitude = it.latitude,
+                                        longitude = it.longitude
+                                    )
                                     Log.d(TAG, "${it.latitude}, ${it.longitude}")
                                 }
                                 numberGeoDatesFilter.set(1)
@@ -160,6 +201,11 @@ class HomePageFragment : BaseFragment<FragmentHomePageBinding>
         override fun onLocationResult(locationResult: LocationResult) {
             val mLastLocation: Location = locationResult.lastLocation
             if (numberGeoDatesFilter.get() == 0) {
+                viewModel.getLastKnownWeatherData(
+                    isOnline = this@HomePageFragment.isNetworkAvailable(),
+                    latitude = mLastLocation.latitude,
+                    longitude = mLastLocation.longitude
+                )
                 Log.d(TAG, "${mLastLocation.latitude}, ${mLastLocation.longitude}")
                 numberGeoDatesFilter.set(1)
             }
@@ -187,13 +233,14 @@ class HomePageFragment : BaseFragment<FragmentHomePageBinding>
 
     //region Настрока Scope для фрагмента
     override fun onAttach(context: Context) {
+        App.instance.appComponent.injectHomePageFragment(this)
         super.onAttach(context)
-        App.instance.initHomePageSubcomponent()
+        // Установка ViewModel
+//        initViewModel()
     }
-
-    override fun onDestroy() {
-        App.instance.destroyHomePageSubcomponent()
-        super.onDestroy()
-    }
+//    override fun onDetach() {
+//        App.instance.destroyHomePageSubcomponent()
+//        super.onDetach()
+//    }
     //endregion
 }

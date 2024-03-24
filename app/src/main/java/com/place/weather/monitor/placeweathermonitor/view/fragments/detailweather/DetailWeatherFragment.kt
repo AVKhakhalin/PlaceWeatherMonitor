@@ -15,12 +15,7 @@ class DetailWeatherFragment : BaseFragment<FragmentDetailWeatherBinding>
 
     //region Настрока Scope для фрагмента
     override fun onAttach(context: Context) {
+        App.instance.appComponent.injectDetailWeatherFragment(this)
         super.onAttach(context)
-        App.instance.initDetailWeatherSubcomponent()
     }
-    override fun onDestroy() {
-        App.instance.destroyDetailWeatherSubcomponent()
-        super.onDestroy()
-    }
-    //endregion
 }
