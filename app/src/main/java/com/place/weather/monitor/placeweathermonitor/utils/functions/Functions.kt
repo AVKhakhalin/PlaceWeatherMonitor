@@ -1,6 +1,7 @@
 package com.place.weather.monitor.placeweathermonitor.utils.functions
 
 import android.graphics.Color
+import android.util.Log
 import com.place.weather.monitor.placeweathermonitor.db.entity.WeatherDataEntity
 import com.place.weather.monitor.placeweathermonitor.db.entity.WeatherShortDataEntity
 import com.place.weather.monitor.placeweathermonitor.model.core.*
@@ -193,13 +194,13 @@ fun getCurrentDate(): Date {
 // Получение даты со сдвигом на заданное количество дней
 fun getLastDate(numberLastDays: Int): Date {
     val calendar: Calendar = getCalendarWithoutTime()
-    calendar.roll(Calendar.DAY_OF_WEEK, -numberLastDays)
+    calendar.add(Calendar.DAY_OF_WEEK, -numberLastDays)
     return calendar.time
 }
 
 // Получение класса Calendar с обнулёнными часами, минутами, секундами и миллисекундами
 fun getCalendarWithoutTime(): Calendar {
-    val calendar: Calendar = GregorianCalendar()
+    val calendar: Calendar = Calendar.getInstance()
     calendar[Calendar.HOUR_OF_DAY] = 0
     calendar[Calendar.MINUTE] = 0
     calendar[Calendar.SECOND] = 0

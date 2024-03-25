@@ -18,3 +18,5 @@ const val ERROR_TAG: String = "ERROR_INV"
 const val DATE_FORMAT: String = "dd-MM-yyyy"
 // Константа для отображения цвета на круговом индикаторе (отвечает за прозрачность)
 const val ALPHA_NOT_OPAQUE: Int = 255
+// Код успешного получения данных из сети
+const val SUCCESS_GET_DATA: Int = 200

@@ -6,6 +6,7 @@ import com.place.weather.monitor.placeweathermonitor.model.core.WeatherDataWithD
 import com.place.weather.monitor.placeweathermonitor.repository.cache.WeatherDataCache
 import com.place.weather.monitor.placeweathermonitor.repository.retrofit.WeatherDataRetrofit
 import com.place.weather.monitor.placeweathermonitor.utils.NUMBER_LAST_DAYS
+import com.place.weather.monitor.placeweathermonitor.utils.SUCCESS_GET_DATA
 import com.place.weather.monitor.placeweathermonitor.utils.functions.convertToWeatherDataWithDate
 import com.place.weather.monitor.placeweathermonitor.utils.functions.getCurrentDate
 import com.place.weather.monitor.placeweathermonitor.utils.functions.getLastDate
@@ -24,15 +25,17 @@ class WeatherRepositoryImpl @Inject constructor(
         longitude: Double,
     ): List<WeatherDataWithDate> {
 
-        val responseRetrofit: WeatherData = withContext(Dispatchers.IO) {
+        if (isOnline) {
+            val responseRetrofit: WeatherData = withContext(Dispatchers.IO) {
                 weatherDataRetrofit.getCurrentWeatherData(
                     latitude = latitude,
                     longitude = longitude,
                 )
-        }
-        when(responseRetrofit.cod) {
-            200 -> {
-                weatherDataCache.putNewData(responseRetrofit)
+            }
+            when (responseRetrofit.cod) {
+                SUCCESS_GET_DATA -> {
+                    weatherDataCache.putNewData(responseRetrofit)
+                }
             }
         }
         return weatherDataCache.getAllLastData(getLastDate(NUMBER_LAST_DAYS))
@@ -44,15 +47,17 @@ class WeatherRepositoryImpl @Inject constructor(
         longitude: Double,
     ): List<WeatherDataWithDateShortInfo> {
 
-        val responseRetrofit: WeatherData = withContext(Dispatchers.IO) {
-            weatherDataRetrofit.getCurrentWeatherData(
-                latitude = latitude,
-                longitude = longitude,
-            )
-        }
-        when(responseRetrofit.cod) {
-            200 -> {
-                weatherDataCache.putNewData(responseRetrofit)
+        if(isOnline) {
+            val responseRetrofit: WeatherData = withContext(Dispatchers.IO) {
+                weatherDataRetrofit.getCurrentWeatherData(
+                    latitude = latitude,
+                    longitude = longitude,
+                )
+            }
+            when (responseRetrofit.cod) {
+                SUCCESS_GET_DATA -> {
+                    weatherDataCache.putNewData(responseRetrofit)
+                }
             }
         }
         return weatherDataCache.getAllLastDataShortInfo(getLastDate(NUMBER_LAST_DAYS))
