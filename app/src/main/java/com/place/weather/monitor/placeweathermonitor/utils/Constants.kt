@@ -14,3 +14,7 @@ const val API_UNITS: String = "metric"
 const val ERROR_CODE: Int = -1
 // Тег для ошибочных логов
 const val ERROR_TAG: String = "ERROR_INV"
+// Формат вывода даты
+const val DATE_FORMAT: String = "dd-MM-yyyy"
+// Константа для отображения цвета на круговом индикаторе (отвечает за прозрачность)
+const val ALPHA_NOT_OPAQUE: Int = 255

@@ -5,12 +5,20 @@
     android:layout_height="match_parent"
     tools:context=".view.fragments.homepage.HomePageFragment">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button_detail_weather_fragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/fragment_home_page_button_text"
-        android:textAllCaps="false"
-        android:layout_gravity="center"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/weather_data_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"
+        android:scrollbars="vertical" />
 
+    <ProgressBar
+        android:id="@+id/progressbar_weather_data_list"
+        android:layout_width="@dimen/progressbar_weather_data_list_layout_width"
+        android:layout_height="@dimen/progressbar_weather_data_list_layout_height"
+        android:layout_gravity="center"
+        android:visibility="visible" />
 </FrameLayout>

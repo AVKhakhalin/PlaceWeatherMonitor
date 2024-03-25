@@ -2,7 +2,6 @@
     <string name="app_name">PlaceWeatherMonitor</string>
     <string name="home_page">Домашняя\nстраница</string>
     <string name="deep_link">Пусто</string>
-    <string name="fragment_home_page_button_text">Переход на фрагмент\nс детальной информацией\nо погоде</string>
     <string name="fragment_home_page_notification_text">Вы уже находитесь на Домашней странице</string>
 
     <!-- ERRORS MESSAGES -->
@@ -10,10 +9,11 @@
     <string name="error_geolocation_needed_text">Пожалуйста, для работы приложения включите геолокацию.</string>
     <string name="error_get_data_not_for_current_window_text">ОШИБКА: Получены данные не для текущего окна.</string>
     <string name="data_text_sample_text">23-03-2024</string>
-    <string name="place_text_sample_text">Орехово-Борисово Южное</string>
+    <string name="place_text_sample_text">Орехово-Борисово</string>
     <string name="humidity_percent_value_sample_text">23</string>
     <string name="cloud_value_sample_text">23</string>
     <string name="wind_value_sample_text">23</string>
     <string name="temperature_min_value_sample_text">23</string>
     <string name="temperature_max_value_sample_text">23</string>
+    <string name="cloudy_percent_value_sample_text">23</string>
 </resources>

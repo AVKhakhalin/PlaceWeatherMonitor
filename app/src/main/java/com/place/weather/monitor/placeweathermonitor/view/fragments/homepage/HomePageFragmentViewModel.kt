@@ -22,8 +22,8 @@ class HomePageFragmentViewModel @Inject constructor (
         viewModelCoroutineScope.launch {
             withContext(Dispatchers.IO) {
                 _mutableLiveData.postValue(
-                    AppState.SuccessGetLastKnownWeatherData(
-                        weatherRepository.getAllLastData(
+                    AppState.SuccessGetLastKnownWeatherDataShortInfo(
+                        weatherRepository.getAllLastDataShortInfo(
                             isOnline = isOnline,
                             latitude = latitude,
                             longitude = longitude,

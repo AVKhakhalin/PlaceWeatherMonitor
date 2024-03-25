@@ -23,11 +23,11 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/data_text"
+                android:id="@+id/date_text"
                 android:layout_width="@dimen/data_text_layout_width"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:textSize="15sp"
+                android:textSize="@dimen/date_text_text_size"
                 android:textStyle="italic"
                 android:ems="@integer/data_text_ems"
                 app:layout_constraintStart_toStartOf="parent"
@@ -38,16 +38,15 @@
                 android:id="@+id/place_text"
                 android:layout_width="@dimen/place_text_layout_width"
                 android:layout_height="wrap_content"
-                android:gravity="right"
+                android:gravity="end"
                 android:textSize="@dimen/place_text_text_size"
                 android:textStyle="italic"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/data_text"
+                app:layout_constraintStart_toEndOf="@id/date_text"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="@string/place_text_sample_text"/>
 
-
-<!--region Иконки-->
+<!--region Относительная влажность в процентах-->
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/humidity_image"
                 android:layout_width="@dimen/humidity_image_layout_width"
@@ -58,39 +57,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/temperature_image"
                 app:layout_constraintTop_toBottomOf="@id/place_text" />
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/temperature_image"
-                android:layout_width="@dimen/temperature_image_layout_width"
-                android:layout_height="@dimen/temperature_image_layout_height"
-                android:layout_marginStart="@dimen/temperature_image_margint_start"
-                android:layout_marginEnd="@dimen/temperature_image_margin_end"
-                android:background="@drawable/ic_temperature_24"
-                app:layout_constraintStart_toEndOf="@id/humidity_image"
-                app:layout_constraintEnd_toStartOf="@id/wind_image"
-                app:layout_constraintTop_toBottomOf="@id/place_text" />
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/wind_image"
-                android:layout_width="@dimen/wind_image_layout_width"
-                android:layout_height="@dimen/wind_image_layout_height"
-                android:layout_marginStart="@dimen/wind_image_margin_start"
-                android:layout_marginEnd="@dimen/wind_image_margin_end"
-                android:background="@drawable/ic_wind_velocity_24"
-                app:layout_constraintStart_toEndOf="@id/temperature_image"
-                app:layout_constraintEnd_toStartOf="@id/cloud_image"
-                app:layout_constraintTop_toBottomOf="@id/place_text" />
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/cloud_image"
-                android:layout_width="@dimen/cloud_image_layout_width"
-                android:layout_height="@dimen/cloud_image_layout_height"
-                android:layout_marginStart="@dimen/cloud_image_margin_start"
-                android:layout_marginEnd="@dimen/cloud_image_margin_end"
-                android:background="@drawable/ic_baseline_cloud_cover_24"
-                app:layout_constraintStart_toEndOf="@id/wind_image"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/place_text" />
-<!--endregion-->
-
-<!--region Относительная влажность-->
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/humidity_percent_background"
                 android:layout_width="@dimen/humidity_percent_background_layout_width"
@@ -127,17 +93,72 @@
                 tools:progress="@integer/humidity_percent_circle_sample_progress" />
 <!--endregion -->
 
+<!--region Облачность в процентах-->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/cloud_image"
+                android:layout_width="@dimen/cloud_image_layout_width"
+                android:layout_height="@dimen/cloud_image_layout_height"
+                android:layout_marginStart="@dimen/cloud_image_margin_start"
+                android:layout_marginEnd="@dimen/cloud_image_margin_end"
+                android:background="@drawable/ic_baseline_cloud_cover_24"
+                app:layout_constraintStart_toEndOf="@id/wind_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/place_text" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/cloudy_percent_background"
+                android:layout_width="@dimen/humidity_percent_background_layout_width"
+                android:layout_height="@dimen/humidity_percent_background_layout_height"
+                android:src="@drawable/ic_baseline_circle"
+                app:layout_constraintBottom_toBottomOf="@id/cloudy_percent_circle"
+                app:layout_constraintEnd_toEndOf="@id/cloudy_percent_circle"
+                app:layout_constraintStart_toStartOf="@id/cloudy_percent_circle"
+                app:layout_constraintTop_toTopOf="@id/cloudy_percent_circle"/>
             <TextView
-                android:id="@+id/cloud_value"
+                android:id="@+id/cloudy_percent_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/cloud_value_text_size"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@id/cloud_image"
-                app:layout_constraintEnd_toEndOf="@id/cloud_image"
-                app:layout_constraintTop_toBottomOf="@id/cloud_image"
-                tools:text="@string/cloud_value_sample_text" />
+                android:textSize="@dimen/cloudy_percent_value_text_size"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@id/cloudy_percent_circle"
+                app:layout_constraintEnd_toEndOf="@id/cloudy_percent_circle"
+                app:layout_constraintStart_toStartOf="@id/cloudy_percent_circle"
+                app:layout_constraintTop_toTopOf="@id/cloudy_percent_circle"
+                tools:text="@string/cloudy_percent_value_sample_text"/>
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/cloudy_percent_circle"
+                android:layout_width="@dimen/humidity_percent_circle_layout_width"
+                android:layout_height="@dimen/humidity_percent_circle_layout_height"
+                android:layout_marginTop="@dimen/cloudy_percent_circle_margin_top"
+                app:indicatorColor="@color/black"
+                app:indicatorSize="@dimen/cloudy_percent_circle_indicator_size"
+                app:layout_constraintStart_toEndOf="@id/cloud_image"
+                app:layout_constraintTop_toTopOf="@id/cloud_image"
+                app:trackColor="@color/white"
+                app:trackCornerRadius="@dimen/cloudy_percent_circle_track_corner_radius"
+                app:trackThickness="@dimen/cloudy_percent_circle_track_thickness"
+                tools:progress="@integer/cloudy_percent_circle_sample_progress" />
+<!--endregion -->
+
+<!--region Ветер-->
+            <View
+                android:layout_width="@dimen/view_table_line_width"
+                android:layout_height="@dimen/view_table_zero_size"
+                android:background="@color/black"
+                app:layout_constraintStart_toEndOf="@id/wind_value"
+                app:layout_constraintEnd_toStartOf="@id/cloud_image"
+                app:layout_constraintTop_toBottomOf="@id/place_text"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/wind_image"
+                android:layout_width="@dimen/wind_image_layout_width"
+                android:layout_height="@dimen/wind_image_layout_height"
+                android:layout_marginStart="@dimen/wind_image_margin_start"
+                android:layout_marginEnd="@dimen/wind_image_margin_end"
+                android:background="@drawable/ic_wind_velocity_24"
+                app:layout_constraintStart_toEndOf="@id/temperature_image"
+                app:layout_constraintEnd_toStartOf="@id/cloud_image"
+                app:layout_constraintTop_toBottomOf="@id/place_text" />
 
             <TextView
                 android:id="@+id/wind_value"
@@ -150,8 +171,27 @@
                 app:layout_constraintEnd_toEndOf="@id/wind_image"
                 app:layout_constraintTop_toBottomOf="@id/wind_image"
                 tools:text="@string/wind_value_sample_text" />
+<!--endregion-->
 
 <!--region Температуры-->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/temperature_image"
+                android:layout_width="@dimen/temperature_image_layout_width"
+                android:layout_height="@dimen/temperature_image_layout_height"
+                android:layout_marginStart="@dimen/temperature_image_margint_start"
+                android:layout_marginEnd="@dimen/temperature_image_margin_end"
+                android:background="@drawable/ic_temperature_24"
+                app:layout_constraintStart_toEndOf="@id/humidity_image"
+                app:layout_constraintEnd_toStartOf="@id/wind_image"
+                app:layout_constraintTop_toBottomOf="@id/place_text" />
+            <View
+                android:layout_width="@dimen/view_table_line_width"
+                android:layout_height="@dimen/view_table_zero_size"
+                android:background="@color/black"
+                app:layout_constraintStart_toEndOf="@id/humidity_image"
+                app:layout_constraintEnd_toStartOf="@id/temperature_min_value"
+                app:layout_constraintTop_toBottomOf="@id/place_text"
+                app:layout_constraintBottom_toBottomOf="parent"/>
             <TextView
                 android:id="@+id/temperature_min_value"
                 android:layout_width="wrap_content"
@@ -162,6 +202,14 @@
                 app:layout_constraintEnd_toStartOf="@id/temperature_image"
                 app:layout_constraintTop_toBottomOf="@id/temperature_image"
                 android:text="@string/temperature_min_value_sample_text" />
+            <View
+                android:layout_width="@dimen/view_table_line_width"
+                android:layout_height="@dimen/view_table_zero_size"
+                android:background="@color/black"
+                app:layout_constraintStart_toEndOf="@id/temperature_max_value"
+                app:layout_constraintEnd_toStartOf="@id/wind_value"
+                app:layout_constraintTop_toBottomOf="@id/place_text"
+                app:layout_constraintBottom_toBottomOf="parent"/>
             <TextView
                 android:id="@+id/temperature_max_value"
                 android:layout_width="wrap_content"
@@ -169,10 +217,17 @@
                 android:textSize="@dimen/temperature_max_value_text_size"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/temperature_image"
+                android:layout_marginStart="@dimen/temperature_max_value_margin_start"
+                app:layout_constraintStart_toStartOf="@id/temperature_image"
                 app:layout_constraintTop_toBottomOf="@id/temperature_image"
                 tools:text="@string/temperature_max_value_sample_text" />
 <!--endregion-->
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/view_table_line_width"
+        android:background="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
