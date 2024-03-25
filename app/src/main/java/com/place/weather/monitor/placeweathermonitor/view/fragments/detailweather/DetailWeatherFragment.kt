@@ -12,6 +12,8 @@ import com.place.weather.monitor.placeweathermonitor.databinding.FragmentDetailW
 import com.place.weather.monitor.placeweathermonitor.model.base.BaseFragment
 import com.place.weather.monitor.placeweathermonitor.model.data.AppState
 import com.place.weather.monitor.placeweathermonitor.utils.ERROR_TAG
+import com.place.weather.monitor.placeweathermonitor.utils.functions.createDetailWeatherReport
+import java.util.*
 import javax.inject.Inject
 
 class DetailWeatherFragment : BaseFragment<FragmentDetailWeatherBinding>
@@ -58,10 +60,13 @@ class DetailWeatherFragment : BaseFragment<FragmentDetailWeatherBinding>
     private fun renderData(appState: AppState) {
         when (appState) {
             is AppState.SuccessGetDetailedWeatherData -> {
-                Log.d(TAG, "${appState.inputData}")
+                appState.inputData?.let {
+                    binding.weatherDetailedDataText.text = it.createDetailWeatherReport()
+                }
+                binding.progressBarWeatherDataShortInfo.visibility = View.GONE
             }
             is AppState.Loading -> {
-                Log.d(ERROR_TAG, "LOADING DATA")
+                binding.progressBarWeatherDataShortInfo.visibility = View.VISIBLE
             }
             is AppState.Error -> {
                 Log.d(ERROR_TAG, "${appState.error.message}")

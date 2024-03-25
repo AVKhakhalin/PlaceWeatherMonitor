@@ -16,4 +16,5 @@
     <string name="temperature_min_value_sample_text">23</string>
     <string name="temperature_max_value_sample_text">23</string>
     <string name="cloudy_percent_value_sample_text">23</string>
+    <string name="weather_detailed_data_text_sample_text">Детальная информация о погоде</string>
 </resources>

@@ -6,80 +6,33 @@
     android:layout_height="match_parent"
     tools:context=".view.fragments.detailweather.DetailWeatherFragment">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/main_coordinator"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="RtlHardcoded">
+        android:layout_height="match_parent" >
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/flexible_appbar"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/weather_detailed_data_text"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:theme="@style/DefaultAppBarLayout">
+            android:layout_margin="@dimen/weather_detailed_data_text_margin"
+            android:gravity="center"
+            android:padding="@dimen/weather_detailed_data_text_padding"
+            android:textColor="@color/black"
+            android:textSize="@dimen/weather_detailed_data_text_text_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/weather_detailed_data_text_sample_text" />
+    </androidx.core.widget.NestedScrollView>
 
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/flexible_collapsing"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:contentScrim="?colorPrimary"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-                <TextView
-                    android:id="@+id/title_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="9dp"
-                    android:gravity="center"
-                    android:padding="13dp"
-                    android:text="Детальная информация о погоде"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/admin_buttons_menu_container"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/weather_detailed_data_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="9dp"
-                    android:gravity="center"
-                    android:padding="13dp"
-                    android:text="Детальная информация о погоде"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ProgressBar
-                    android:id="@+id/progress_bar_weather_data_short_info"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_gravity="center"
-                    android:visibility="visible"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                    app:layout_constraintBottom_toBottomOf="@id/weather_detailed_data_text"
-                    app:layout_constraintEnd_toEndOf="@id/weather_detailed_data_text"
-                    app:layout_constraintStart_toStartOf="@id/weather_detailed_data_text"
-                    app:layout_constraintTop_toTopOf="@id/weather_detailed_data_text" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <ProgressBar
+        android:id="@+id/progress_bar_weather_data_short_info"
+        android:layout_width="@dimen/progressbar_weather_data_list_layout_width"
+        android:layout_height="@dimen/progressbar_weather_data_list_layout_height"
+        android:layout_gravity="center"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

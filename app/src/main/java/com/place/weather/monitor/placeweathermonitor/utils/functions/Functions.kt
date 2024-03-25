@@ -6,8 +6,10 @@ import com.place.weather.monitor.placeweathermonitor.db.entity.WeatherDataEntity
 import com.place.weather.monitor.placeweathermonitor.db.entity.WeatherShortDataEntity
 import com.place.weather.monitor.placeweathermonitor.model.core.*
 import com.place.weather.monitor.placeweathermonitor.utils.ALPHA_NOT_OPAQUE
+import com.place.weather.monitor.placeweathermonitor.utils.DATE_FORMAT
 import com.place.weather.monitor.placeweathermonitor.utils.ERROR_CODE
 import com.place.weather.monitor.placeweathermonitor.utils.NUMBER_LAST_DAYS
+import java.text.SimpleDateFormat
 import java.util.*
 
 fun List<WeatherShortDataEntity>.convertToListWeatherShortInfo() :
@@ -236,4 +238,24 @@ fun Int.convertToColor(): Int {
         }
     }
     return Color.argb(ALPHA_NOT_OPAQUE, red, green, blue)
+}
+
+// Создание отчёта о детальной информации о погоде
+fun WeatherDataWithDate.createDetailWeatherReport(): String {
+    return "Детальные данные о погоде на ${
+            SimpleDateFormat(
+            DATE_FORMAT, Locale.getDefault()).format(this.date)}\n" +
+            "в ${this.name}:\n" +
+            "Координаты:\n${this.coord.lat} (широта)\n${this.coord.lon} (долгота)\n" +
+            "Облачность: ${this.clouds.all}%\n" +
+            "Скорость ветра: ${this.wind.speed} м/с\n" +
+            "Направление ветра ${this.wind.deg} градусов\n" +
+            "Код страны: ${this.sys.country}\n" +
+            "Видимость: ${this.visibility} м\n" +
+            "Средняя температура: ${this.main.temp} град.Цельсия\n" +
+            "Температура по ощущению: ${this.main.feels_like} град.Целься\n" +
+            "Минимальная температура: ${this.main.temp_min} град.Цельсия\n" +
+            "Максимальная температура: ${this.main.temp_max} град.Цельсия\n" +
+            "Атмосферное давление: ${this.main.pressure} гПа\n" +
+            "Влажность: ${this.main.humidity} %\n"
 }

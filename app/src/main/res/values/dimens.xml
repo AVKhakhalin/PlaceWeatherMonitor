@@ -46,6 +46,9 @@
     <dimen name="temperature_max_value_margin_start">5dp</dimen>
     <dimen name="view_table_zero_size">0dp</dimen>
     <dimen name="date_text_text_size">15sp</dimen>
+    <dimen name="weather_detailed_data_text_margin">9dp</dimen>
+    <dimen name="weather_detailed_data_text_padding">13dp</dimen>
+    <dimen name="weather_detailed_data_text_text_size">20sp</dimen>
     <integer name="data_text_ems">5</integer>
     <integer name="humidity_percent_circle_sample_progress">23</integer>
     <integer name="cloudy_percent_circle_sample_progress">23</integer>
