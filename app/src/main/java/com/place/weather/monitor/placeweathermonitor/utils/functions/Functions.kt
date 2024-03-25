@@ -242,10 +242,8 @@ fun Int.convertToColor(): Int {
 
 // Создание отчёта о детальной информации о погоде
 fun WeatherDataWithDate.createDetailWeatherReport(): String {
-    return "Детальные данные о погоде на ${
-            SimpleDateFormat(
-            DATE_FORMAT, Locale.getDefault()).format(this.date)}\n" +
-            "в ${this.name}:\n" +
+    return  "в ${this.name}:\n" +
+            "на ${SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(this.date)}\n" +
             "Координаты:\n${this.coord.lat} (широта)\n${this.coord.lon} (долгота)\n" +
             "Облачность: ${this.clouds.all}%\n" +
             "Скорость ветра: ${this.wind.speed} м/с\n" +
